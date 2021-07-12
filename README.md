@@ -8,7 +8,7 @@ This helps takes some guesswork out of service discovery and makes it possible t
 # Installation
 It is recommended to add `-n NAMESPACE` to this command. Kontacts is meant to be ran per namespace. Security should be handled via [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 ```text
-kubectl apply -f https://raw.githubusercontent.com/scalabledelivery/kontacts/master/manifests/kontacts.yaml
+kubectl apply -f https://raw.githubusercontent.com/scalabledelivery/kontacts/v1.0/manifests/kontacts.yaml
 ```
 
 # Try it Out

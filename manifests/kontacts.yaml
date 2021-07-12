@@ -61,7 +61,7 @@ spec:
       serviceAccountName: kontacts
       automountServiceAccountToken: true
       containers:
-      - image: ghcr.io/scalabledelivery/kontacts:latest
+      - image: ghcr.io/scalabledelivery/kontacts:v1.0
         name: kontacts
         env:
         - name: K8S_NAMESPACE
