@@ -1,0 +1,18 @@
+# Full reference: https://skaffold.dev/docs/references/yaml/
+apiVersion: skaffold/v2beta18
+kind: Config
+
+portForward:
+- resourceType: service
+  resourceName: kontacts
+  port: 80
+  localPort: 8000
+
+build:
+  artifacts:
+  - image: ghcr.io/scalabledelivery/kontacts
+
+deploy:
+  kubectl:
+    manifests:
+      - manifests/kontacts.yaml

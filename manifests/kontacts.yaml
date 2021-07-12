@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kontacts
+automountServiceAccountToken: true
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kontacts
+rules:
+- apiGroups: ["*"]
+  resources: ["pods", "services"]
+  verbs: ["list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kontacts-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kontacts
+subjects:
+- kind: ServiceAccount
+  name: kontacts
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kontacts
+  labels:
+    app: kontacts
+spec:
+  selector:
+    app: kontacts
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kontacts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kontacts
+  template:
+    metadata:
+      labels:
+        app: kontacts
+    spec:
+      serviceAccountName: kontacts
+      automountServiceAccountToken: true
+      containers:
+      - image: ghcr.io/scalabledelivery/kontacts:latest
+        name: kontacts
+        env:
+        - name: K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
